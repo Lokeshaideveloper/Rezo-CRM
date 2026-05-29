@@ -12,10 +12,12 @@ interface UploadResult {
 }
 
 interface BulkUploadModalProps {
-  isOpen: boolean
+  isOpen?: boolean
   onClose: () => void
-  type: UploadType
-  onSuccess: () => void
+  type?: UploadType
+  entity?: UploadType     // alias for type (legacy prop name)
+  onSuccess?: () => void
+  onSave?: () => void     // alias for onSuccess (legacy prop name)
 }
 
 // ─── CSV parsers ────────────────────────────────────────────────────────────
@@ -226,11 +228,15 @@ async function uploadDeals(
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function BulkUploadModal({
-  isOpen,
+  isOpen = true,
   onClose,
   type,
+  entity,
   onSuccess,
+  onSave,
 }: BulkUploadModalProps) {
+  const resolvedType: UploadType = (type ?? entity ?? 'deals')
+  const handleSuccess = onSuccess ?? onSave ?? (() => {})
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -243,7 +249,7 @@ export default function BulkUploadModal({
 
   if (!isOpen) return null
 
-  const template = TEMPLATES[type]
+  const template = TEMPLATES[resolvedType]
 
   const handleFile = (f: File) => {
     setFile(f)
@@ -264,13 +270,13 @@ export default function BulkUploadModal({
     const rows = parseCSV(text)
     let res: UploadResult
 
-    if (type === 'accounts') res = await uploadAccounts(rows, supabase)
-    else if (type === 'contacts') res = await uploadContacts(rows, supabase)
+    if (resolvedType === 'accounts') res = await uploadAccounts(rows, supabase)
+    else if (resolvedType === 'contacts') res = await uploadContacts(rows, supabase)
     else res = await uploadDeals(rows, supabase)
 
     setResult(res)
     setLoading(false)
-    if (res.success > 0) onSuccess()
+    if (res.success > 0) handleSuccess()
   }
 
   const downloadTemplate = () => {
@@ -279,7 +285,7 @@ export default function BulkUploadModal({
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${type}_template.csv`
+    a.download = `${resolvedType}_template.csv`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -321,7 +327,7 @@ export default function BulkUploadModal({
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <h2 style={{ margin: 0, fontSize: 18, fontWeight: 500 }}>
-            Bulk upload {type}
+            Bulk upload {resolvedType}
           </h2>
           <button
             onClick={onClose}
