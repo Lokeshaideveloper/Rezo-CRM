@@ -162,7 +162,7 @@ export default function DealsPage() {
                     <tr key={deal.id} className={`transition-colors ${stale ? 'bg-amber-50/50 hover:bg-amber-50' : 'hover:bg-slate-50'}`}>
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-2">
-                          {stale && <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" title="No activity in 14+ days" />}
+                          {stale && <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />}
                           <Link href={`/deals/${deal.id}`} className="font-semibold text-slate-800 hover:text-red-700 transition-colors">{deal.name}</Link>
                         </div>
                         {deal.contact?.name && <p className="text-xs text-slate-400 mt-0.5 ml-5">{deal.contact.name}</p>}
