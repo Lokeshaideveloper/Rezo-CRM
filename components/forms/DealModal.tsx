@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Deal, PIPELINE_STAGES, LEAD_SOURCES } from '@/types'
+import { Deal, DealStage, PIPELINE_STAGES, LEAD_SOURCES } from '@/types'
 import { X, Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
