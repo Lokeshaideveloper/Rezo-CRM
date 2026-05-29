@@ -66,7 +66,7 @@ const TEMPLATES: Record<UploadType, { headers: string; example: string; notes: s
 
 async function uploadAccounts(
   rows: Record<string, string>[],
-  supabase: ReturnType<typeof createClientComponentClient>
+  supabase: ReturnType<typeof createBrowserClient>
 ): Promise<UploadResult> {
   const result: UploadResult = { success: 0, failed: 0, errors: [] }
   for (const [i, row] of rows.entries()) {
@@ -92,7 +92,7 @@ async function uploadAccounts(
 
 async function uploadContacts(
   rows: Record<string, string>[],
-  supabase: ReturnType<typeof createClientComponentClient>
+  supabase: ReturnType<typeof createBrowserClient>
 ): Promise<UploadResult> {
   const result: UploadResult = { success: 0, failed: 0, errors: [] }
 
@@ -146,7 +146,7 @@ async function uploadContacts(
 
 async function uploadDeals(
   rows: Record<string, string>[],
-  supabase: ReturnType<typeof createClientComponentClient>
+  supabase: ReturnType<typeof createBrowserClient>
 ): Promise<UploadResult> {
   const result: UploadResult = { success: 0, failed: 0, errors: [] }
 
