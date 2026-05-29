@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient } from '@supabase/ssr'
 
 type UploadType = 'deals' | 'accounts' | 'contacts'
 
@@ -231,7 +231,10 @@ export default function BulkUploadModal({
   type,
   onSuccess,
 }: BulkUploadModalProps) {
-  const supabase = createClientComponentClient()
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   const fileRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<Record<string, string>[]>([])
