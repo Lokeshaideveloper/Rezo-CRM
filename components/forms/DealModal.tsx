@@ -45,7 +45,7 @@ export default function DealModal({ deal, onClose, onSave }: Props) {
       'MQL': 10, 'Demo/Discovery': 25, 'SQL': 40, 'Commercial': 60,
       'POC/Pilot': 75, 'Won': 100, 'Lost': 0, 'On Hold': 20,
     }
-    setForm(f => ({ ...f, stage, probability: defaults[stage]?.toString() || f.probability }))
+    setForm(f => ({ ...f, stage: stage as DealStage, probability: defaults[stage]?.toString() || f.probability }))
   }
 
   const set = (field: string, value: string) => setForm(f => ({ ...f, [field]: value }))
