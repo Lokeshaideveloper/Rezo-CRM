@@ -208,7 +208,7 @@ export default function DealDetailPage() {
   useEffect(() => {
     fetchAll()
     supabase.auth.getUser().then(({ data: { user: session } }) => {
-      if (session) setCurrentUserId(session.user.id)
+      if (session) setCurrentUserId(session.id)
     })
   }, [fetchAll, supabase])
 
