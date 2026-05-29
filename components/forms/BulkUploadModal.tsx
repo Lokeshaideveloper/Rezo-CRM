@@ -69,7 +69,7 @@ async function uploadAccounts(
   supabase: ReturnType<typeof createBrowserClient>
 ): Promise<UploadResult> {
   const result: UploadResult = { success: 0, failed: 0, errors: [] }
-  for (const [i, row] of rows.entries()) {
+  for (let i = 0; i < rows.length; i++) { const row = rows[i]
     if (!row.name) {
       result.failed++
       result.errors.push(`Row ${i + 2}: missing required field "name"`)
@@ -107,7 +107,7 @@ async function uploadContacts(
     for (const a of data ?? []) accountMap[a.name] = a.id
   }
 
-  for (const [i, row] of rows.entries()) {
+  for (let i = 0; i < rows.length; i++) { const row = rows[i]
     if (!row.name || !row.email) {
       result.failed++
       result.errors.push(`Row ${i + 2}: missing required field "name" or "email"`)
@@ -175,7 +175,7 @@ async function uploadDeals(
   // Get current user
   const { data: { user } } = await supabase.auth.getUser()
 
-  for (const [i, row] of rows.entries()) {
+  for (let i = 0; i < rows.length; i++) { const row = rows[i]
     if (!row.name) {
       result.failed++
       result.errors.push(`Row ${i + 2}: missing required field "name"`)
