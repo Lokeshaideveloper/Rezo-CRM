@@ -97,7 +97,7 @@ async function uploadContacts(
   const result: UploadResult = { success: 0, failed: 0, errors: [] }
 
   // Build account name → id lookup
-  const accountNames = [...new Set(rows.map((r) => r.account_name).filter(Boolean))]
+  const accountNames = Array.from(new Set(rows.map((r) => r.account_name).filter(Boolean)))
   const accountMap: Record<string, string> = {}
   if (accountNames.length > 0) {
     const { data } = await supabase
@@ -151,8 +151,8 @@ async function uploadDeals(
   const result: UploadResult = { success: 0, failed: 0, errors: [] }
 
   // Build lookup maps
-  const accountNames = [...new Set(rows.map((r) => r.account_name).filter(Boolean))]
-  const contactEmails = [...new Set(rows.map((r) => r.contact_email).filter(Boolean))]
+  const accountNames = Array.from(new Set(rows.map((r) => r.account_name).filter(Boolean)))
+  const contactEmails = Array.from(new Set(rows.map((r) => r.contact_email).filter(Boolean)))
 
   const accountMap: Record<string, string> = {}
   if (accountNames.length > 0) {
